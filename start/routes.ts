@@ -24,4 +24,7 @@ Route.group(() => {
   Route.get('/', async () => {
     return { API: 'ClickSoft' }
   })
-}).prefix('api')
+
+  Route.resource('rooms', 'RoomsController').apiOnly()
+  Route.resource('students', 'StudentsController').apiOnly()
+}).prefix('/api')
