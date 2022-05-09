@@ -62,8 +62,13 @@ export default class StudentsController {
   }
 
   public async update({ params, request, response }: HttpContextContract) {
+    //Check id exists
+    const student = await Student.find(params.id)
+    if (!student) {
+      return response.status(404).json({ message: `Aluno não encontrado no sistema.` })
+    }
+
     const data = request.only(['name', 'email', 'birthdate'])
-    const student = await Student.findOrFail(params.id)
 
     //Check email exists
     const emailExists = await Student.findBy('email', data.email)
