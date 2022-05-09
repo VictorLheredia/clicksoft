@@ -9,6 +9,12 @@ export default class Teacher extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public email: string
+
+  @column()
+  public birthdate: string
+
   @hasMany(() => Room)
   public rooms: HasMany<typeof Room>
 }

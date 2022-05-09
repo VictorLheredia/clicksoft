@@ -9,6 +9,12 @@ export default class Student extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public email: string
+
+  @column()
+  public birthdate: string
+
   @manyToMany(() => Room)
   public rooms: ManyToMany<typeof Room>
 }

@@ -7,6 +7,8 @@ export default class Students extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('name')
+      table.string('email')
+      table.string('birthdate')
     })
   }
 

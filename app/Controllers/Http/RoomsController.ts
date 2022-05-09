@@ -5,7 +5,7 @@ import Teacher from 'App/Models/Teacher'
 
 export default class RoomsController {
   public async index() {
-    const rooms = await Room.query().preload('students')
+    const rooms = await Room.all()
 
     return rooms
   }

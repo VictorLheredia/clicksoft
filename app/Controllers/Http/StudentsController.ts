@@ -4,7 +4,7 @@ import Student from 'App/Models/Student'
 
 export default class StudentsController {
   public async index() {
-    const students = await Student.query().preload('rooms')
+    const students = await Student.all()
 
     return students
   }
@@ -16,7 +16,7 @@ export default class StudentsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const data = request.only(['name'])
+    const data = request.only(['id', 'name', 'email', 'birthdate'])
 
     const student = await Student.create(data)
 
@@ -25,10 +25,12 @@ export default class StudentsController {
   }
 
   public async update({ params, request }: HttpContextContract) {
-    const data = request.only(['name'])
+    const data = request.only(['name', 'email', 'birthdate'])
     const student = await Student.findOrFail(params.id)
 
     student.name = data.name
+    student.email = data.email
+    student.birthdate = data.birthdate
 
     await student.save()
 
