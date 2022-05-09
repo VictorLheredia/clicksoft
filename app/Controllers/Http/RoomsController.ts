@@ -19,9 +19,10 @@ export default class RoomsController {
   public async store({ request, response }: HttpContextContract) {
     const { teacherId, ...data } = request.only(['id', 'teacherId', 'capacity', 'available'])
 
-    await Teacher.find(teacherId)
+    const teacher = await Teacher.find(teacherId)
 
-    data.teacherId = teacherId
+    data.teacherId = teacher?.id
+    data.teacher = teacher?.name
 
     const room = await Room.create(data)
 

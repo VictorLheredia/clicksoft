@@ -12,6 +12,7 @@ export default class Rooms extends BaseSchema {
         .references('teachers.id')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
+      table.string('teacher')
       table.integer('capacity')
       table.boolean('available')
     })

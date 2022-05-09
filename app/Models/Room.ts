@@ -10,6 +10,9 @@ export default class Room extends BaseModel {
   public teacherId: number
 
   @column()
+  public teacher: string
+
+  @column()
   public capacity: number
 
   @column({
