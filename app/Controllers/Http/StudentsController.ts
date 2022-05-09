@@ -96,6 +96,6 @@ export default class StudentsController {
 
     await student.delete()
 
-    return response.status(200).json({ message: 'Aluno excluido com sucesso!', data: student })
+    return response.status(200).json({ message: `Aluno ${student.name} excluido com sucesso!` })
   }
 }

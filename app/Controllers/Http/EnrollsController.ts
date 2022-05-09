@@ -10,31 +10,25 @@ export default class EnrollsController {
 
     //Check Room exists
     if (!room) {
-      return {
-        message: 'Sala não cadastrada no sistema.',
-      }
+      return response.status(404).json({ message: 'Sala não encontrada no sistema.' })
     }
 
     //Check Teacher is admin room
     if (teacher !== room.teacherId) {
-      return {
-        message: 'O professor não é o responsável da sala.',
-      }
+      return response.status(422).json({ message: 'O professor não é o responsável da sala.' })
     }
 
     //Check available
     if (!room.available) {
-      return {
-        message: 'A sala está temporariamente indisponível para novas matrículas',
-      }
+      return response
+        .status(422)
+        .json({ message: 'A sala está temporariamente indisponível para novas matrículas.' })
     }
 
     //Check Student exists
     const studentExists = await Student.find(student)
     if (!studentExists) {
-      return {
-        message: 'Aluno não cadastrado no sistema.',
-      }
+      return response.status(422).json({ message: 'Aluno não cadastrado no sistema.' })
     }
 
     //Check Student exists in Room
@@ -42,25 +36,23 @@ export default class EnrollsController {
     const ArrayStudents = students.map((student) => student.id)
     const studentInRoom = ArrayStudents.includes(student)
     if (studentInRoom) {
-      return {
-        message: 'O aluno Já está matriculado na sala.',
-      }
+      return response.status(422).json({ message: 'O aluno Já está matriculado na sala.' })
     }
 
     //Check capacity Room
     if (room.capacity === students.length) {
-      return {
-        message: `a Sala atingiu a capacidade máxima de ${room.capacity} alunos.`,
-      }
+      return response
+        .status(422)
+        .json({ message: `a Sala atingiu a capacidade máxima de ${room.capacity} alunos.` })
     }
 
     await room.related('students').attach([student])
     await room.load('students')
 
-    return {
+    return response.status(201).json({
       message: `O aluno ${studentExists.name} foi matriculado na sala ${room.id} com sucesso!`,
       data: room,
-    }
+    })
   }
 
   public async destroy({ params, request, response }: HttpContextContract) {
@@ -69,24 +61,18 @@ export default class EnrollsController {
 
     //Check Room exists
     if (!room) {
-      return {
-        message: 'Sala não cadastrada no sistema.',
-      }
+      return response.status(404).json({ message: 'Sala não encontrada no sistema.' })
     }
 
     //Check Teacher is admin room
     if (teacher !== room.teacherId) {
-      return {
-        message: 'O professor não é o responsável da sala.',
-      }
+      return response.status(422).json({ message: 'O professor não é o responsável da sala.' })
     }
 
     //Check Student exists
     const studentExists = await Student.find(student)
     if (!studentExists) {
-      return {
-        message: 'Aluno não cadastrado no sistema.',
-      }
+      return response.status(422).json({ message: 'Aluno não cadastrado no sistema.' })
     }
 
     //Check Student exists in Room
@@ -94,17 +80,14 @@ export default class EnrollsController {
     const ArrayStudents = students.map((student) => student.id)
     const studentInRoom = ArrayStudents.includes(student)
     if (!studentInRoom) {
-      return {
-        message: 'O aluno não está matriculado na sala.',
-      }
+      return response.status(422).json({ message: 'O aluno não está matriculado na sala.' })
     }
 
     await room.related('students').detach([student])
     await room.load('students')
 
-    return {
+    return response.status(200).json({
       message: `O aluno ${studentExists.name} foi removido da sala ${room.id} com sucesso!`,
-      data: room,
-    }
+    })
   }
 }

@@ -98,6 +98,6 @@ export default class TeachersController {
 
     await teacher.delete()
 
-    return response.status(200).json({ message: 'Professor excluido com sucesso!', data: teacher })
+    return response.status(200).json({ message: `Professor ${teacher.name} excluido com sucesso!` })
   }
 }
