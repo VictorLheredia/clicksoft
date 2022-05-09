@@ -35,11 +35,6 @@ export default class RoomsController {
     if (!data.capacity) {
       return response.status(422).json({ message: 'A capacidade de alunos da sala é obrigatória' })
     }
-    if (!data.available) {
-      return response
-        .status(422)
-        .json({ message: 'O campo disponibilidade de matricular novos alunos é obrigatório ' })
-    }
 
     //Check id exists
     const idExists = await Room.find(data.id)
