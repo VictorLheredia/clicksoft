@@ -9,6 +9,16 @@ export default class Room extends BaseModel {
   @column()
   public teacherId: number
 
+  @column()
+  public capacity: number
+
+  @column({
+    serialize: (value?: Number) => {
+      return Boolean(value)
+    },
+  })
+  public available: boolean
+
   @manyToMany(() => Student)
   public students: ManyToMany<typeof Student>
 }

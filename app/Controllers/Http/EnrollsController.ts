@@ -22,6 +22,13 @@ export default class EnrollsController {
       }
     }
 
+    //Check available
+    if (!room.available) {
+      return {
+        message: 'A sala está temporariamente indisponível para novas matrículas',
+      }
+    }
+
     //Check Student exists
     const studentExists = await Student.find(student)
     if (!studentExists) {
@@ -37,6 +44,13 @@ export default class EnrollsController {
     if (studentInRoom) {
       return {
         message: 'O aluno Já está matriculado na sala.',
+      }
+    }
+
+    //Check capacity Room
+    if (room.capacity === students.length) {
+      return {
+        message: `a Sala atingiu a capacidade máxima de ${room.capacity} alunos.`,
       }
     }
 

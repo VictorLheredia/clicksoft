@@ -17,7 +17,7 @@ export default class RoomsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { teacherId, ...data } = request.only(['id', 'teacherId'])
+    const { teacherId, ...data } = request.only(['id', 'teacherId', 'capacity', 'available'])
 
     await Teacher.find(teacherId)
 
@@ -29,10 +29,11 @@ export default class RoomsController {
   }
 
   public async update({ params, request }: HttpContextContract) {
-    const data = request.only(['id'])
+    const data = request.only(['capacity', 'available'])
     const room = await Room.findOrFail(params.id)
 
-    room.id = data.id
+    room.capacity = data.capacity
+    room.available = data.available
 
     await room.save()
 
