@@ -25,6 +25,9 @@ Route.group(() => {
     return { API: 'ClickSoft' }
   })
 
-  Route.resource('rooms', 'RoomsController').apiOnly()
   Route.resource('students', 'StudentsController').apiOnly()
+  Route.resource('teachers', 'TeachersController').apiOnly()
+  Route.resource('rooms', 'RoomsController').apiOnly()
+  Route.post('enroll/:id', 'EnrollsController.store')
+  Route.delete('enroll/:id', 'EnrollsController.destroy')
 }).prefix('/api')

@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Room from 'App/Models/Room'
+import Teacher from 'App/Models/Teacher'
 
 export default class RoomsController {
   public async index() {
@@ -16,12 +17,13 @@ export default class RoomsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { students, ...data } = request.only(['id', 'students'])
+    const { teacherId, ...data } = request.only(['id', 'teacherId'])
+
+    await Teacher.find(teacherId)
+
+    data.teacherId = teacherId
 
     const room = await Room.create(data)
-
-    await room.related('students').attach(students)
-    await room.load('students')
 
     return room
   }

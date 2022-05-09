@@ -6,6 +6,9 @@ export default class Room extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public teacherId: number
+
   @manyToMany(() => Student)
   public students: ManyToMany<typeof Student>
 }
